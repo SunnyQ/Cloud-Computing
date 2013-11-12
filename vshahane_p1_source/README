@@ -1,0 +1,7 @@
+1. In addition to source code I also included jar files I used on EMR for steps 1 & 2.
+
+2. To avoid the version conflict issue on EMR after testing on my MAC, I created jars with required binaries.
+
+3. Both jars/programs need two arguments: InputDirectory OutputDirectory
+
+4. As per Step 3 recommendation in handout, used Hive for querying required data. Also included Hive queries in separate file along with source code for steps 1 & 2.
