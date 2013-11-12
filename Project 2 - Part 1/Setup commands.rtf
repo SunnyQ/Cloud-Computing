@@ -1,0 +1,269 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset0 Monaco;\f2\fnil\fcharset0 HelveticaNeue;
+}
+{\colortbl;\red255\green255\blue255;\red27\green36\blue34;\red38\green38\blue38;}
+\margl1440\margr1440\vieww25400\viewh13260\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs26 \cf0 \
+LOCALRC FILE\
+\
+export http_proxy="http://ops.marmot.pdl.cmu.local:8888"\
+export https_proxy="http://ops.marmot.pdl.cmu.local:8888"\
+export no_proxy="localhost,127.0.0.1"\
+ADMIN_PASSWORD=123\
+MYSQL_PASSWORD=123\
+RABBIT_PASSWORD=123\
+SERVICE_PASSWORD=123\
+LIBVIRT_TYPE=qemu\
+SERVICE_TOKEN=123\
+LOGFILE=/l0/logs/stack.sh.log\
+SCREEN_LOGDIR=/l0/logs/screen\
+LOGDAYS=2\
+FLAT_INTERFACE=tapfoo\
+\
+\
+LOGIN TO CLUSTER\
+ssh vshahane@marmot-ops.pdl.cmu.edu\
+\
+CREATE CLUSTER\
+New:\
+/share/probe/bin/probe-makebed -e Group14-DS -p OpenStackSys -i UBUNTU12-64-PROBE -g Group14 -n 1 -s /proj/OpenStackSys/scripts/startup\
+Snapshot:\
+/share/probe/bin/probe-makebed -e Group14-OS -p OpenStackSys -i Group14-Image -g Group14 -n 1\
+\
+probe-makebed running...\
+\
+	base = /usr/testbed\
+	exp_eid = Group14-DS\
+	proj_pid = OpenStackSys\
+	features =\
+	group = Group14\
+	host_base = h\
+	image = UBUNTU12-64-PROBE\
+	nodes = 1\
+	duration = 16:00\
+	startcmd = /proj/OpenStackSys/scripts/startup\
+\
+making a cluster with node count = 1\
+\
+generating ns file...done (/tmp/tb57569-2328.nsfile).\
+\
+loading ns file as an exp... done!\
+swapping in the exp...\
+\
+all done (hostnames=h0.Group14-DS.OpenStackSys)!\
+\
+DESTROY CLUSTER\
+/share/probe/bin/probe-makebed -e Group14-OS -p OpenStackSys -r\
+\
+SSH TO HOST\
+ssh h0.Group14-DS.OpenStackSys\
+\
+ACCESS ROOT SHELL\
+\
+sudo -H /bin/tcsh\
+\
+DEVSTACK SETUP\
+\
+setenv http_proxy http://ops.marmot.pdl.cmu.local:8888\
+setenv https_proxy http://ops.marmot.pdl.cmu.local:8888\
+cd /users/vshahane\
+git clone http://github.com/openstack-dev/devstack.git -b stable/havana\
+cd /proj/OpenStackSys/scripts/\
+./setup_devstack_env.sh\
+cp /proj/OpenStackSys/scripts/localrc /users/vshahane/devstack\
+cd /users/vshahane/devstack\
+\
+./stack.sh\
+\
+\
+Horizon is now available at http://10.1.1.75/\
+Keystone is serving at http://10.1.1.75:5000/v2.0/\
+Examples on using novaclient command line is in exercise.sh\
+The default users are: admin and demo\
+The password: 123\
+This is your host ip: 10.1.1.75\
+\
+\
+sudo apt-get install python-setuptools\
+sudo easy_install pip\
+cd ~/python-glanceclient-0.11.0\
+sudo python setup.py install\
+cd ~/python-novaclient-2.15.0\
+sudo python setup.py install\
+\
+TRY: source openrc admin admin\
+setenv OS_USERNAME admin\
+setenv OS_TENANT_NAME demo\
+setenv OS_PASSWORD 123\
+setenv OS_AUTH_URL http://10.1.1.122:5000/v2.0/\
+setenv OS_REGION_NAME RegionOne\
+\
+\
+TEST - \
+glance image-list\
+nova secgroup-list\
+nova secgroup-list-rules mygroup\
+nova flavor-list\
+nova keypair-list\
+\
+ssh-keygen\
+nova keypair-add --pub_key ~/.ssh/id_rsa.pub mykey\
+\
+IF ERROR LOGGIN IN: ssh-keygen -f "/users/vshahane/.ssh/known_hosts" -R 10.0.0.2\
+\
+nova secgroup-create mygroup default-security-group-custom\
+nova secgroup-add-rule mygroup tcp 22 22 0.0.0.0/0\
+nova secgroup-add-rule mygroup tcp 8899 8899 0.0.0.0/0\
+nova secgroup-add-rule mygroup tcp 8888 8888 0.0.0.0/0\
+nova secgroup-add-rule mygroup icmp -1 -1 0.0.0.0/0\
+nova secgroup-add-rule mygroup udp 53 53 0.0.0.0/0\
+\
+nova boot --image=cirros-0.3.1-x86_64-uec --flavor=1 testimage1 --meta description='Small test image' --key_name=mykey --security-groups=mygroup\
+nova list\
+nova show testimage1\
+ssh cirros@10.0.0.2 -i ./mykey.pem\
+nova delete testimage1\
+\
+glance --os-username=admin --os-password=123 --os-tenant-name=demo --os_auth_url=http://10.1.1.122:5000/v2.0/ --os-region-name=RegionOne image-create --disk-format=qcow2 --container-format=ovf --name=myimage1 < /proj/OpenStackSys/proj2_images/precise-server-cloudimg-amd64-disk1_12.04.img\
+glance --os-username=admin --os-password=123 --os-tenant-name=demo --os_auth_url=http://10.1.1.121:5000/v2.0/ image-delete myimage1\
+\
+nova boot --image=myimage1 --flavor=2 testimage1 --meta description='Small test image' --key_name=mykey --security-groups=mygroup\
+\
+nova boot --image=myimage1 --flavor=2 testimage2 --meta description='Small test image' --key_name=mykey --security-groups=mygroup \
+\
+nova boot 
+\f1\fs24 \cf2 --user-data=/users/vshahane/performance_monitor_gen.sh 
+\f0\fs26 \cf0 --image=myimage1 --flavor=2 testimage3 --meta description='Small test image' --key_name=mykey --security-groups=mygroup \
+\
+PULL - scp vshahane@10.0.0.1:~/sysbench* ./\
+PUSH - scp ~/sysbench-0.4.12.tar.gz ubuntu@10.0.0.2:~/\
+\
+ON DS VM:\
+\
+\pard\pardeftab720\sa40
+
+\f2 \cf3 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE\
+\
+ON Instance\
+\
+sudo vi /etc/apt/apt.conf\
+Acquire::http::Proxy "http://ops.marmot.pdl.cmu.local:8888/";\
+sudo apt-get update\
+sudo apt-get install sysbench\
+\
+sysbench --test=cpu --cpu-max-prime=20000 run
+\f0 \cf0 \
+\pard\pardeftab720
+\cf0 \
+MONITOR SCRIPT:\
+\
+#!/bin/bash\
+# Author - Vishal Shahane\
+# Andrew ID - vshahane\
+# Email ID - vshahane@andrew,cmu.edu\
+sum_previous=0\
+idle_previous=0\
+hostname=`/bin/hostname`\
+while true; do\
+	line=`cat /proc/stat | grep 'cpu '`\
+	user=`echo $line | awk '\{print $2\}'`\
+	nice=`echo $line | awk '\{print $3\}'`\
+	system=`echo $line | awk '\{print $4\}'`\
+	idle=`echo $line | awk '\{print $5\}'`\
+	iowait=`echo $line | awk '\{print $6\}'`\
+	irq=`echo $line | awk '\{print $7\}'`\
+	softirq=`echo $line | awk '\{print $8\}'`\
+	sum_current=`expr $user + $nice + $system + $idle + $iowait + $irq + $softirq`\
+	idle_difference=`expr $idle - $idle_previous`\
+	sum_difference=`expr $sum_current - $sum_previous`\
+	t1=`expr $sum_difference - $idle_difference`\
+	t2=`expr $t1 / $sum_difference`\
+	utilization=`expr $t2 \\* 100`\
+	sum_previous=$sum_current\
+	idle_previous=$idle\
+	echo $hostname $utilization% | nc 10.0.0.1 8899\
+	sleep 1\
+done\
+\
+start-stop-daemon --start --background --oknodo --user ubuntu --name test --pidfile /var/run/test.pid --startas /home/ubuntu/test.sh --chuid ubuntu -- --daemon\
+\
+\
+COLLECTOR SCRIPT:\
+\
+#!/bin/bash\
+# Author - Vishal Shahane\
+# Andrew ID - vshahane\
+# Email ID - vshahane@andrew,cmu.edu\
+while true; do\
+        /bin/nc -l 10.0.0.1 8899 >> /users/vshahane/performance_collector.out\
+done\
+\
+NOT NEEDED - sudo echo \'93collector	8899/tcp			# Collect CPU performance data\'94 >> /etc/services\
+sudo iptables -A INPUT -p tcp --dport 8899 -j ACCEPT\
+sudo iptables -A OUTPUT -p tcp --dport 8899 -j ACCEPT\
+\
+\
+cd /devstack\
+./unstack.sh\
+sudo umount -f /l0\
+sudo vi /etc/fstab & comment lines with /l0 \'97\'97\'97 example \'97\'97\'97\'97/dev/sda4 /l0 ext3 rw 0 1\
+Checkpoint the image\
+\
+\
+\
+\
+\
+\
+Performance Collector Generator:\
+\
+#!/bin/bash\
+script=/usr/local/src/performance_collector.sh\
+sudo touch $script\
+sudo chown vshahane:Ope-Group14 $script\
+chmod 700 $script\
+echo \\#\\!\\/bin\\/bash > $script\
+echo \\# Author - Vishal Shahane >> $script\
+echo \\# Andrew ID - vshahane >> $script\
+echo \\# Email ID - vshahane\\@andrew,cmu.edu >> $script\
+echo while true\\; do >> $script\
+echo 	\\/bin\\/nc -l 10.0.0.1 8899 \\>\\> \\/users\\/vshahane\\/performance_collector.out >> $script\
+echo done >> $script\
+\
+start-stop-daemon --start --background --oknodo --user ubuntu --name test --pidfile /var/run/test.pid --startas /home/ubuntu/test.sh --chuid ubuntu -- --daemon\
+\
+Performance Monitor Generator:\
+#!/bin/bash\
+script=/usr/local/src/performance_monitor.sh\
+sudo touch $script\
+sudo chown ubuntu:ubuntu $script\
+chmod 700 $script\
+echo \\#\\!\\/bin\\/bash > $script\
+echo \\# Author - Vishal Shahane >> $script\
+echo \\# Andrew ID - vshahane >> $script\
+echo \\# Email ID - vshahane\\@andrew.cmu.edu >> $script\
+echo sum_previous=0 >> $script\
+echo idle_previous=0 >> $script\
+echo hostname=\\`\\/bin\\/hostname\\` >> $script\
+echo while true\\; do >> $script\
+echo 	line=\\`cat \\/proc\\/stat \\| grep \\\'92cpu \\\'92\\` >> $script\
+echo 	user=\\`echo $line \\| awk \\\'92\\\{print \\$2\\\}\\\'92\\` >> $script\
+echo 	nice=\\`echo $line | awk \\\'92\\\{print $3\\\}\\'` >> $script\
+echo 	system=`echo $line | awk '\{print $4\}'` >> $script\
+echo 	idle=`echo $line | awk '\{print $5\}'` >> $script\
+echo 	iowait=`echo $line | awk '\{print $6\}'` >> $script\
+echo 	irq=`echo $line | awk '\{print $7\}'` >> $script\
+echo 	softirq=`echo $line | awk '\{print $8\}'` >> $script\
+echo 	sum_current=`expr $user + $nice + $system + $idle + $iowait + $irq + $softirq` >> $script\
+echo 	idle_difference=`expr $idle - $idle_previous` >> $script\
+echo 	sum_difference=`expr $sum_current - $sum_previous` >> $script\
+echo 	t1=`expr $sum_difference - $idle_difference` >> $script\
+echo 	t2=`expr $t1 / $sum_difference` >> $script\
+echo 	utilization=`expr $t2 \\* 100` >> $script\
+echo 	sum_previous=$sum_current >> $script\
+echo 	idle_previous=$idle >> $script\
+echo 	echo $hostname $utilization% | nc 10.0.0.1 8899 >> $script\
+echo 	sleep 1 >> $script\
+echo done >> $script}
