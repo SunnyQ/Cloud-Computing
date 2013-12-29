@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# usage : /haproxyhotconfigchange.sh newConfigFile.cfg
+
+MASTERCONFIG="/etc/haproxy/haproxy.cfg"
+
+
+if [ -n "$1" ];
+then
+   haproxyConfigFile=$1
+else
+   echo "ERROR: Need first argument to be path to new haproxy.cfg file"
+   exit 0
+fi
+
+
+pids=""
+for i in `cat /var/run/haproxy.pid`;
+do
+   pids="$pids $i"
+
+done
+
+sudo haproxy -D -p /var/run/haproxy.pid -f $haproxyConfigFile -sf $pids
+sudo cp $haproxyConfigFile $MASTERCONFIG

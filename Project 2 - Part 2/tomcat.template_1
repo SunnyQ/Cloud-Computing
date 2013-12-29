@@ -1,0 +1,4 @@
+Max VMs: 2
+Min VMs: 1
+VM image: customimage1
+Response-time target: 3

@@ -1,0 +1,12 @@
+set datafile separator " "
+set terminal png size 900,400
+set title "Response Time vs Time"
+set ylabel "Response Time"
+set xlabel "Time"
+set xdata time
+set timefmt "%s"
+set format x "%M:%S"
+set key left top
+set grid
+plot "/users/vshahane/data/plot/proxy.log" using 1:2 with lines lw 2 lt 2 title 'Response Time',\
+     "/users/vshahane/data/plot/metrics.log" using 1:2 with lines lw 2 lt 3 title 'Response Measured'

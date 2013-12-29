@@ -1,0 +1,11 @@
+set datafile separator " "
+set terminal png size 900,400
+set title "Server Count"
+set ylabel "# of Servers"
+set xlabel "Time"
+set xdata time
+set timefmt "%s"
+set format x "%M:%S"
+set key left top
+set grid
+plot "/users/vshahane/data/plot/servercount.log" using 1:2 with lines lw 2 lt 1 title 'Number of server'
