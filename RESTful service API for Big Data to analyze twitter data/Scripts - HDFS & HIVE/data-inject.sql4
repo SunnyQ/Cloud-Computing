@@ -1,0 +1,52 @@
+add jar /usr/share/java/hive-serdes-1.0-SNAPSHOT.jar;
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/00'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062000');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/01'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062001');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/02'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062002');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/03'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062003');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/04'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062004');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/05'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062005');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/06'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062006');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/07'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062007');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/08'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062008');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/09'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062009');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/10'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062010');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/11'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062011');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/12'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062012');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/13'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062013');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/14'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062014');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/15'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062015');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/20/16'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062016');

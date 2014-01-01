@@ -1,0 +1,53 @@
+ <HEAD>
+<TITLE>Distributed System & Networking Free Project</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="White">
+
+<CENTER>
+<H1>Distributed System & Networking: RESTful Service API for Big Data</H1>
+
+ 
+
+  <IMG SRC="http://info300.net/jrobinson/images/hadooplogo2.png" HEIGHT="100" WIDTH="400" BORDER="0">
+  <H1> & </H1>
+  <IMG SRC="http://thehrblog.ecornell.com/wp-content/uploads/sites/2/2013/05/twitter-featured.jpg" HEIGHT="110" WIDTH="240" BORDER="0">
+
+<H4>By</H4>
+<H4>Po-lin Yeh | Punnawachara Campanang | Vishal Shahane | Yu-chi Chen</H4>
+
+</CENTER>
+
+<H3>Please select the option</H3>
+
+<form action="test.php" method = "GET">
+Data Type:
+<select name = "fn">
+  <option value = "timezone">timezone</option>
+  <option value = "hashtag">hashtag</option>
+  <option value = "follower">follower</option>  
+  <option value = "friends">friends</option>
+  <option value = "tweets">tweets</option>
+  <option value = "tweetsall">tweetsall</option>
+</select>
+<br>
+  Number of output rows: <input type="text" name="cn"><br>
+  <input type="submit" value="Submit">
+</form> 
+
+
+<hr>
+<h3><u> Note </u></h3>
+<h4> Data Type </h4>
+<p><b>1. timezone:</b> To get timezones for number of tweets.</p>
+<p><b>2. hashtag:</b> To get hashtags for number of tweets.</p>
+<p><b>3. follower:</b> To get user accounts with maximum followers (with followers count).</p>
+<p><b>4. friends:</b> To get user accounts with maximum friends (with friends count).</p>
+<p><b>5. tweets:</b> To get user accounts who are generating maximum tweets for targeted keywords in collection period.</p>
+<p><b>6. tweetsall:</b> To get user accounts who are generating maximum tweets for targeted keywords in collection period and their overall tweets, followers count and friends count.</p>
+<hr>
+<p><b>Number of output rows:</b> Rank the results from the top to the number you input</p>
+
+
+
+

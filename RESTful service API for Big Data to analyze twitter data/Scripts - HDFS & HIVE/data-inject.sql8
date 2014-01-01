@@ -1,0 +1,73 @@
+add jar /usr/share/java/hive-serdes-1.0-SNAPSHOT.jar;
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/00'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062500');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/01'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062501');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/02'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062502');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/03'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062503');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/04'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062504');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/05'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062505');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/06'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062506');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/07'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062507');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/08'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062508');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/09'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062509');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/10'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062510');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/11'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062511');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/12'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062512');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/13'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062513');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/14'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062514');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/15'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062515');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/16'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062516');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/17'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062517');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/18'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062518');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/19'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062519');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/20'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062520');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/21'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062521');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/22'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062522');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/25/23'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013062523');

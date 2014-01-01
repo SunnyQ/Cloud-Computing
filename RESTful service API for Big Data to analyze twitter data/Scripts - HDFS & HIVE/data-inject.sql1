@@ -1,0 +1,7 @@
+add jar /usr/share/java/hive-serdes-1.0-SNAPSHOT.jar;
+LOAD DATA INPATH '/user/flume/tweets/2013/06/17/22'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013061722');
+LOAD DATA INPATH '/user/flume/tweets/2013/06/17/23'
+INTO TABLE `default.tweets`
+PARTITION (datehour='2013061723');

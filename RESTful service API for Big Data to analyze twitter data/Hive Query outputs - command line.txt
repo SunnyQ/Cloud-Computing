@@ -1,0 +1,119 @@
+Which time zones are the most active per day?
+
+SELECT user.time_zone, SUBSTR(created_at, 0, 3), COUNT(*) AS total_count FROM tweets WHERE user.time_zone IS NOT NULL GROUP BY user.time_zone, SUBSTR(created_at, 0, 3) ORDER BY total_count DESC LIMIT 20;
+
+Eastern Time (US & Canada)	Wed	4123
+Eastern Time (US & Canada)	Tue	4066
+Pacific Time (US & Canada)	Tue	2509
+Pacific Time (US & Canada)	Wed	2441
+Central Time (US & Canada)	Wed	2060
+Central Time (US & Canada)	Tue	1788
+London	Wed	1786
+Eastern Time (US & Canada)	Thu	1765
+London	Tue	1568
+Eastern Time (US & Canada)	Sun	1204
+London	Thu	1028
+Pacific Time (US & Canada)	Thu	902
+Amsterdam	Wed	851
+Amsterdam	Tue	845
+Arizona	Wed	823
+
+Which were the most common hashtags?
+
+SELECT LOWER(hashtags.text), COUNT(*) AS total_count FROM tweets LATERAL VIEW EXPLODE(entities.hashtags) t1 AS hashtags GROUP BY LOWER(hashtags.text) ORDER BY total_count DESC LIMIT 15;
+
+bigdata	14364
+analytics	6790
+cloudcomputing	2384
+cloud	1835
+hadoop	1172
+data	997
+job	934
+truoptik	877
+jobs	780
+metrics	716
+bi	683
+socialmedia	615
+marketing	612
+ibm	545
+twitter	512
+
+Which accounts have maximum followers?
+
+select user.screen_name, max(user.followers_count) t from tweets GROUP BY user.screen_name ORDER BY t DESC LIMIT 20;
+
+nytimes	8649179
+hootsuite	5036660
+nfl	4715463
+TechCrunch	2802977
+wired	2042481
+guardiantech	2033699
+timoreilly	1706688
+sacca	1412093
+om	1345831
+RealTonyRocha	1299845
+SAI	1282956
+johncusack	1257021
+ForbesTech	860890
+bhogleharsha	811145
+FastCompany	763604
+
+Which accounts have maximum friends?
+
+select user.screen_name, max(user.friends_count) t from tweets GROUP BY user.screen_name ORDER BY t DESC LIMIT 15;
+
+hootsuite	1268960
+GLaraLopez	510211
+yanakahatunecho	248094
+shellieblum	243611
+zaibatsu	236895
+tedcoine	224399
+JeffSheehan	210206
+RareCat	193106
+MrScottEddy	187485
+ManageFlitter	178019
+williamtincup	174084
+AnnTran_	167914
+MazMEDEA	152047
+TomHall	147622
+TweetSmarter	147272
+
+Which accounts have maximum tweets in downloaded data?
+
+select user.screen_name, max(user.statuses_count) t from tweets GROUP BY user.screen_name ORDER BY t DESC LIMIT 15;
+
+craigslistjobs	1132404
+googlenewsjp	890518
+PulpNews	860481
+bestjobsonline	790854
+Edubeat	756027
+Jobs_WebSello	686579
+espanolinks	682728
+TechZader	647235
+tvvitterderss	617317
+BrianBrownNet	615647
+atmark99	528720
+ibotoolbox	525994
+crssfeed	525143
+thaitvnews	499765
+HumanityNews	491572
+
+Combined Query
+
+select user.screen_name, count(*) as n, max(user.statuses_count), max(user.followers_count), max(user.friends_count) from tweets GROUP BY user.screen_name ORDER BY n DESC LIMIT 15;
+
+PageViral	2077	52091	2021	375
+TruOptik	909	3399	153	355
+contextualdata	566	642	52	497
+MinneapolisPR	184	2738	53746	14157
+bigdatameetups	180	8016	11	8
+website_metrics	174	655	1830	851
+Database_Scene	130	2896	8644	5723
+jkozak84	126	9759	161	26
+TheSocialMined	110	50344	4016	2471
+BITechWatch	110	17043	3576	2613
+LSE_NEF	109	590	149	272
+myyotta	91	1388	5	0
+KirkDBorne	91	10078	3783	3845
+AnalytecAlchemy	89	5933	308	304
+jg21	88	30256	2696	438
